@@ -80,3 +80,20 @@ spool_archive() {
     mkdir -p "spool/$tracker/issue/archive"
     git mv "spool/$tracker/issue/$id-$slug" "spool/$tracker/issue/archive/$id-$slug"
 }
+
+# Mirrors commands/run.md §Decision tree step 2.
+# Given a tracker + id, print one of: "pickup", "archived", "init".
+# Callers assert on the printed token.
+spool_run_decide() {
+    tracker=$1
+    id=$2
+    active=$(find "./spool/$tracker/issue" -maxdepth 1 -type d -name "$id-*" ! -path '*archive*' 2>/dev/null | head -n1)
+    archived=$(find "./spool/$tracker/issue/archive" -maxdepth 1 -type d -name "$id-*" 2>/dev/null | head -n1)
+    if [ -n "$active" ]; then
+        echo "pickup"
+    elif [ -n "$archived" ]; then
+        echo "archived"
+    else
+        echo "init"
+    fi
+}

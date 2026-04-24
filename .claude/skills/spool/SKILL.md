@@ -1,6 +1,6 @@
 ---
 name: spool
-description: Manage spool — the in-repo convention for serial multi-session work. Use only when the user types one of `/spool pickup`, `/spool init`, `/spool close`, `/spool commit`, or `/spool status`. Do NOT invoke implicitly on casual references to issue IDs.
+description: Manage spool — the in-repo convention for serial multi-session work. Use only when the user types one of `/spool run`, `/spool pickup`, `/spool init`, `/spool close`, `/spool commit`, or `/spool status`. Do NOT invoke implicitly on casual references to issue IDs.
 ---
 
 # spool
@@ -23,15 +23,18 @@ Route to the matching command playbook in `commands/`:
 
 | User types | Playbook |
 |---|---|
+| `/spool run <ref>` | `commands/run.md` *(recommended default)* |
 | `/spool pickup <ref>` | `commands/pickup.md` |
 | `/spool init <tracker> <id> <slug>` | `commands/init.md` |
 | `/spool close <id>` | `commands/close.md` |
 | `/spool commit` | `commands/commit.md` |
 | `/spool status` | `commands/status.md` |
 
-If the user types `/spool` with no subcommand, list the five subcommands and ask which they want.
+`run` is the sugar — it decides init-vs-pickup from filesystem state. `init` and `pickup` remain as primitives for when the user wants to be explicit.
 
-If the user types `/spool <unknown>`, say so and list the five valid subcommands.
+If the user types `/spool` with no subcommand, list the six subcommands and ask which they want.
+
+If the user types `/spool <unknown>`, say so and list the six valid subcommands.
 
 ## Files and paths
 

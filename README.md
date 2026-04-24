@@ -240,8 +240,14 @@ All seven tests should pass. In Claude Code, `/spool` should now list the subcom
 
 All invocations are explicit — the skill never fires on casual mentions of issue IDs.
 
-- `/spool init <tracker> <id> <slug>` — scaffold a new issue working dir.
-- `/spool pickup <ref>` — the pickup protocol. Reads state, confirms Next with you, does one step, commits.
+**The one you'll use most:**
+
+- `/spool run <ref>` — start or continue work on an issue. If the spool dir doesn't exist yet, scaffolds it; if it does, resumes it. Either way, confirms Next with you, does one step, commits.
+
+**Primitives:**
+
+- `/spool init <tracker> <id> <slug>` — scaffold a new issue working dir without starting work.
+- `/spool pickup <ref>` — resume an existing spool. Fails if no dir exists.
 - `/spool commit` — produce a commit that satisfies the spool commit protocol + updates the issue README in the same commit.
 - `/spool close <id>` — walk the five-step promotion ritual: update specs, log decisions, update guardrails, archive, commit.
 - `/spool status` — list active spools across trackers. Read-only.
