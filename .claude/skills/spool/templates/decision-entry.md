@@ -1,0 +1,3 @@
+## {{DATE}} — {{HEADLINE}} (#{{ISSUE}})
+
+{{ONE_PARAGRAPH_WHY}}
