@@ -12,6 +12,12 @@
 ## Next
 <!-- The single immediate next concrete action — not the whole roadmap. -->
 
+## Plan
+<!-- Flat ordered checklist for this issue. Not a DAG. Update as steps land.
+     The `## Next` section is the SINGLE next item; `## Plan` is the wider list. -->
+- [ ] step 1
+- [ ] step 2
+
 ## Deferred
 <!-- Things cut from this session. One line each: <thing>: <one-line reason>. -->
 

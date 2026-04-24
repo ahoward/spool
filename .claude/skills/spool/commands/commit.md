@@ -49,6 +49,7 @@ Advisory check: if the user's "what shipped" doesn't obviously align with the RE
   `- [step N] <what shipped>. Commit: PENDING. Tests: <green|red|n/a>. Verified: <how>.`
   (The `PENDING` gets replaced with the real sha in step 6.)
 - Replace `## Next` with the user-provided next action.
+- If `## Plan` exists and contains an unchecked item that matches what just shipped, check it off (`[ ]` → `[x]`).
 
 ### 5. Stage and compose the commit
 

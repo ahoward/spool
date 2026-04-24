@@ -64,6 +64,8 @@ Write the result to `spool/<tracker>/issue/<id>-<slug>/README.md`.
 
 Ask the user for the single immediate next concrete action, write it into the `## Next` section.
 
+Optionally ask for a fuller plan — a flat checklist of steps for this issue — and write it into `## Plan`. If the user doesn't have one yet, leave the template's placeholder (or empty list) in place; pickup will populate it later.
+
 ### 5. Report
 
 Tell the user where the dir was created and what Next is. Do not commit — that's the user's call, and the first real commit will happen during a pickup.
