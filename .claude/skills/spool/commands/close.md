@@ -30,15 +30,11 @@ Principles (from the project README):
 
 ### 3. Log decisions
 
-Ask the user: **any key decisions from this issue worth logging?** For each, append an entry to `./spool/agents/decisions.md` using the template:
+Ask the user: **any key decisions from this issue worth logging?** For each, append an entry to `./spool/agents/decisions.md` using the template at `templates/decision-entry.md`.
 
-```
-## <YYYY-MM-DD> — <short headline> (#<id>)
+For each decision, also ask: **what alternatives were considered, and why did each lose?** Capture them under a `**Considered alternatives:**` block. Skip the block when no real alternatives existed.
 
-<one-paragraph why: reasoning, alternatives, context>
-```
-
-Insert at the top (newest-first). Use today's date (the actual date, not a placeholder — resolve via `date +%Y-%m-%d`).
+Insert at the top of `decisions.md` (newest-first). Use today's date (the actual date, not a placeholder — resolve via `date +%Y-%m-%d`).
 
 ### 4. Update guardrails if needed
 
