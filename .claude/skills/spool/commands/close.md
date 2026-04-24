@@ -44,6 +44,10 @@ Insert at the top (newest-first). Use today's date (the actual date, not a place
 
 Ask: **did any agent fail in a way the team should know about?** For each new guardrail, append a line to `./spool/agents/guardrails.md` using the template. Keep it short.
 
+### 4.5. Promote any new playbooks
+
+Ask: **is any pattern from this issue worth reusing?** If yes, write or update `./spool/playbooks/<name>.md` — a short recipe (paragraph + numbered list). Skip if nothing recurring came up.
+
 ### 5. Archive the issue dir
 
 ```bash

@@ -50,6 +50,7 @@ Directory shape (from the project README):
   docs/<subsystem>.md
   agents/decisions.md
   agents/guardrails.md
+  playbooks/<name>.md
   <tracker>/issue/<id>-<slug>/README.md
   <tracker>/issue/archive/<id>-<slug>/README.md
 ```
@@ -63,6 +64,8 @@ When creating or updating files, pull from `./.claude/skills/spool/templates/`:
 - `issue-readme.md` — the Done/Next/Deferred/Pitfalls/Open questions template for issue working dirs.
 - `decision-entry.md` — the shape of a single entry appended to `./spool/agents/decisions.md`.
 - `guardrail-entry.md` — the shape of an entry in `./spool/agents/guardrails.md`.
+
+Playbooks (`./spool/playbooks/<name>.md`) have no template — they are short freeform Markdown. The skill reads them but doesn't generate them; users (or the close ritual) write them.
 
 ## On any tool's absence
 

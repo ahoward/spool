@@ -58,7 +58,7 @@ Delegate to `commands/init.md` for scaffolding (steps 1-4: bootstrap `./spool/`,
 
 Do NOT stop after init. Immediately flow into `commands/pickup.md` starting from step 6 (the Next-confirmation step) — there's no point re-reading the README you just wrote in steps 1-5, and steps 2-5 of pickup (read spec, glance specs, glance decisions, glance guardrails) may be empty on the first run anyway. Skim them if they exist; skip silently if they don't.
 
-One caveat — on the very first run in a project, `./spool/docs/` and `./spool/agents/*` will be empty. That's fine. Say so to the user in one line so they know there's nothing to glance at, not that you skipped the step.
+One caveat — on the very first run in a project, `./spool/docs/`, `./spool/agents/*`, and `./spool/playbooks/` will be empty. That's fine. Say so to the user in one line so they know there's nothing to glance at, not that you skipped the step.
 
 ### 4. Do exactly one step
 

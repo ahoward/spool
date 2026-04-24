@@ -36,6 +36,8 @@ Everything spool-related lives under `./spool/` in your project. Top-level:
   agents/                      # agent-related state (not project state)
     decisions.md               # flat, dated log of key decisions
     guardrails.md              # agent behavioral guardrails — Claude, Gemini, any
+  playbooks/                   # short reusable recipes — "how we do X"
+    <name>.md                  # one playbook per recurring task pattern
   gh/                          # GitHub-tracked issues
     issue/
       <id>-<slug>/             # live working dir
@@ -54,7 +56,7 @@ Everything spool-related lives under `./spool/` in your project. Top-level:
 
 The tracker namespace (`gh/`, `linear/`, etc.) is explicit in the path because not every project uses the same tracker. Issues from multiple trackers coexist without collision.
 
-## The four kinds of files
+## The five kinds of files
 
 ### 1. Issue working dirs — `./spool/<tracker>/issue/<id>-<slug>/`
 
@@ -122,6 +124,18 @@ Why in-repo (not in `~/.claude/.../` or equivalent): team collaboration, multi-a
 
 Format: bullet list grouped by agent (or shared), one line per guardrail, plus a short "why." Short on purpose.
 
+### 5. Playbooks — `./spool/playbooks/<name>.md`
+
+Long-lived. One file per recurring task pattern — "how we add a tracker adapter," "how we close an issue," "how we onboard a new dev." A small, growing skill library scoped to this project.
+
+Read by `pickup` and `run` when the issue title or `Next` mentions a keyword that matches a playbook name. Promoted from issue dirs at close time when a pattern from the work is reusable — same lifecycle as `docs/`, but the unit is a recipe instead of a subsystem.
+
+Principles:
+- One playbook per "thing you'd want a recipe for the next time it comes up."
+- Short — a paragraph or two and a numbered list, not a manual.
+- Plain CommonMark. No front-matter, no parameters. If a playbook needs configuration, it's not a playbook.
+- Promoted, not invented in flight. New playbooks land via the close ritual, where the work that justifies them has already shipped.
+
 ## The promotion ritual (issue close)
 
 When an issue closes, the final PR does, as its last commit:
@@ -129,8 +143,9 @@ When an issue closes, the final PR does, as its last commit:
 1. **Promote to evolving specs.** Update `./spool/docs/<subsystem>.md` to reflect what shipped. Replace or merge sections; this is the *new current truth*.
 2. **Log the decisions.** Append dated entries to `./spool/agents/decisions.md` for any key choices worth remembering.
 3. **Update guardrails if needed.** If an agent failed in a way the team should know about, add to `./spool/agents/guardrails.md`.
-4. **Archive the issue dir.** `mv spool/<tracker>/issue/<id>-<slug>/ spool/<tracker>/issue/archive/<id>-<slug>/`. No tar, no gzip — just move. Git history preserves the rename.
-5. **Commit.** `chore(spool): close #<id>, promote to docs/<subsystem>.md, archive`.
+4. **Promote any new playbooks.** If a pattern from this issue is worth reusing, write or update `./spool/playbooks/<name>.md`. One paragraph + a numbered list, not a manual.
+5. **Archive the issue dir.** `mv spool/<tracker>/issue/<id>-<slug>/ spool/<tracker>/issue/archive/<id>-<slug>/`. No tar, no gzip — just move. Git history preserves the rename.
+6. **Commit.** `chore(spool): close #<id>, promote to docs/<subsystem>.md, archive`.
 
 After merge:
 - Specs carry design truth forward.
@@ -147,7 +162,7 @@ When the user says "do #42" (or any reference to a tracker ID with an active spo
 1. **Read the spec.** Open the issue in the tracker. Understand what's being built.
 2. **Read the issue's `README.md`.** `./spool/<tracker>/issue/<id>-.../README.md` is the source of truth for state. Ignore stale impressions from the spec about progress.
 3. **Glance at relevant specs + decisions.** `./spool/docs/<subsystem>.md` for current truth; `./spool/agents/decisions.md` for recent why-entries.
-4. **Glance at `./spool/agents/guardrails.md`.** Skim for anything relevant before proposing.
+4. **Glance at `./spool/agents/guardrails.md` and `./spool/playbooks/`.** Skim guardrails before proposing; grep playbooks for keywords from the issue title or `Next`.
 5. **Confirm the next action with the user before touching code.** "README says next is step 3 — start there?" Catches drift.
 6. **Do exactly one step.** End with a commit that updates the issue's `README.md`.
 
