@@ -67,3 +67,27 @@ When creating or updating files, pull from `./.claude/skills/spool/templates/`:
 ## On any tool's absence
 
 If `./spool/` does not exist yet in the repo, only `/spool init` should create it. For other subcommands, tell the user the project isn't spooled and suggest `/spool init` as the first move.
+
+## Headless mode (`--yolo`)
+
+Off by default. Enabled per-invocation only — never persisted, never inferred.
+
+`/spool <subcommand> --yolo [args...]` means "skip prompts, proceed with sane defaults." It applies to: `run`, `init`, `pickup`, `close`, `commit`. It is a no-op on `status` (already read-only).
+
+**Headless skips prompts, not discipline.** All of these still apply under `--yolo`:
+
+- The serial constraint (no parallel work).
+- The commit protocol (subject/body/footer + same-commit README update).
+- One-step-per-commit on pickup/run.
+- The advisory-validation rules — and headless ≠ reckless: malformed READMEs still abort.
+
+**Audit trail.** Every prompt that would have asked the user gets logged to a `## Headless decisions` section in the issue README, grouped under a `### <YYYY-MM-DD>` subheading per session, one bullet per skipped prompt. The section is created on first headless action; do not pre-seed it in the template.
+
+**When headless refuses.** Some prompts are too consequential to auto-decide:
+
+- `/spool close --yolo` refuses when the promotion target is ambiguous (no clear subsystem named in issue body or commits) — the user must run `close` interactively.
+- Any subcommand refuses on a corrupt or missing issue README.
+
+When headless refuses, say so explicitly and tell the user to drop `--yolo`.
+
+**Defaults derived under `--yolo`.** Each command playbook documents its own defaults in its own `## Headless mode` section. The general rule: derive from the filesystem and tracker first; fall back to convention (`<type>/<slug>` for branch, slug-from-title) only when nothing better exists.

@@ -20,3 +20,11 @@
 
 ## Open questions
 <!-- Things punted on, needing user input. One per line. -->
+
+<!--
+If `/spool <cmd> --yolo` is used, a `## Headless decisions` section is appended
+below by the skill, with `### <YYYY-MM-DD>` subheadings per session and one
+bullet per skipped prompt. Do NOT pre-seed this section — only add it when a
+headless action actually occurs.
+-->
+

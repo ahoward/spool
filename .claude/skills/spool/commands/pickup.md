@@ -78,3 +78,15 @@ Delegate the commit to `commands/commit.md` conventions.
 ### 8. Report back
 
 Summarize in one or two sentences: what shipped, what Next now says. End.
+
+## Headless mode
+
+`/spool pickup --yolo <ref>` skips step 6 (the Next-confirmation gate). Specifically:
+
+- Read `## Next` from the issue README. Treat it as confirmed.
+- Append a bullet under the current session's `### <YYYY-MM-DD>` heading in `## Headless decisions`: `Auto-confirmed Next: "<the Next text>"`.
+- Proceed to step 7.
+
+If `## Next` is empty/missing under `--yolo`, refuse — the gate exists for a reason, and there's no sane default for "what should we do next." Tell the user to drop `--yolo` and run interactively.
+
+Steps 2-5 (read spec / glance specs+decisions / glance guardrails) and step 7 (do one step + commit) are unchanged. The serial constraint and commit protocol still apply.

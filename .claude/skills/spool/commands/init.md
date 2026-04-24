@@ -67,3 +67,16 @@ Ask the user for the single immediate next concrete action, write it into the `#
 ### 5. Report
 
 Tell the user where the dir was created and what Next is. Do not commit — that's the user's call, and the first real commit will happen during a pickup.
+
+## Headless mode
+
+`/spool init --yolo <tracker> <id> <slug>` derives every prompted value from the environment:
+
+- **Title** — fetch from the tracker if possible. For `gh:`: `gh issue view <id> --json title -q .title`. Otherwise refuse and tell the user `--yolo` can't auto-derive a title.
+- **Tracker URL** — same source. For `gh:`: `gh issue view <id> --json url -q .url`. For other trackers: refuse if no fetch is available.
+- **Branch** — `<type>/<slug>` where `<type>` is `feat` unless the issue title starts with `fix:`/`bug:` (then `fix`) or `docs:` (then `docs`). Single sane default.
+- **Next** — under `--yolo`, the `## Next` section is left empty with a `<!-- TODO: fill this in before first /spool run, or run interactively -->` placeholder. Init does not invent work the user hasn't agreed to.
+
+Each derived value is logged to `## Headless decisions` in the new issue README under a `### <YYYY-MM-DD>` subheading.
+
+If the issue dir already exists or the id is in archive, init still refuses — `--yolo` doesn't bypass safety guards.

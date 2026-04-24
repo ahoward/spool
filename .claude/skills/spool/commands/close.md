@@ -71,3 +71,21 @@ Ask the user for approval before running `git commit`.
 ### 7. Report
 
 Summarize what promoted where, what decisions logged, whether any guardrails were added, and the new archive path.
+
+## Headless mode
+
+`/spool close --yolo <id>` is the most restricted of the headless variants — closing is consequential.
+
+**Auto-decided under `--yolo`:**
+
+- **Step 3 (decisions)**: if any commit body in the issue's history mentions "decided:" or similar explicit decision-marker, treat the explicit text as the decision entry. Append with today's date. If none found, log "no decisions identified" to `## Headless decisions` and skip step 3.
+- **Step 4 (guardrails)**: if the issue README's `## Pitfalls` is non-empty, copy each Pitfall as a guardrail entry verbatim. If empty, skip.
+- **Step 5 (archive)**: always run.
+- **Step 6 (commit)**: compose the commit per protocol and run it without confirmation.
+
+**Refused under `--yolo`:**
+
+- **Step 2 (spec promotion)**: if the issue does not name a `docs/<subsystem>.md` target — explicitly in the issue body, in a commit footer, or in `## Open questions` — close `--yolo` refuses. Promotion is too consequential to guess. The user runs `close` interactively.
+- **Status mismatch**: if the issue README's `Status:` is not `done`, refuse.
+
+When close refuses headlessly, leave the dir in place and tell the user exactly why.
