@@ -203,16 +203,62 @@ Three surfaces, three jobs, no overlap:
 
 Events flow into state (issue close → promotion). Agents read state before acting. Teams read state to onboard. The repo is the single source of truth; nothing lives in agent-vendor memory files where only one person can see it.
 
+## Install
+
+A Claude Code skill lives under `.claude/skills/spool/`. Two scopes, pick one.
+
+**Per-project (recommended — matches "everything in the repo" ethos):**
+
+```sh
+cd <your-project>
+git clone https://github.com/ahoward/spool /tmp/spool-src
+mkdir -p .claude/skills
+cp -r /tmp/spool-src/.claude/skills/spool .claude/skills/spool
+rm -rf /tmp/spool-src
+```
+
+Commit `.claude/skills/spool/` into the project. The team gets the skill, reviews it, evolves it.
+
+**Personal (available in every project):**
+
+```sh
+git clone https://github.com/ahoward/spool /tmp/spool-src
+mkdir -p ~/.claude/skills
+cp -r /tmp/spool-src/.claude/skills/spool ~/.claude/skills/spool
+rm -rf /tmp/spool-src
+```
+
+**Verify:**
+
+```sh
+sh .claude/skills/spool/tests/run.sh   # or ~/.claude/... for personal scope
+```
+
+All seven tests should pass. In Claude Code, `/spool` should now list the subcommands.
+
+## Commands
+
+All invocations are explicit — the skill never fires on casual mentions of issue IDs.
+
+- `/spool init <tracker> <id> <slug>` — scaffold a new issue working dir.
+- `/spool pickup <ref>` — the pickup protocol. Reads state, confirms Next with you, does one step, commits.
+- `/spool commit` — produce a commit that satisfies the spool commit protocol + updates the issue README in the same commit.
+- `/spool close <id>` — walk the five-step promotion ritual: update specs, log decisions, update guardrails, archive, commit.
+- `/spool status` — list active spools across trackers. Read-only.
+
+See `.claude/skills/spool/SKILL.md` and `.claude/skills/spool/commands/*.md` for the full playbooks.
+
 ## Evolution
 
-This is v0. Likely v1 after dogfooding:
+v0 is Markdown-only: playbooks + templates + inline bash. Advisory validation.
 
-- A `/spool` skill / CLI that automates the pickup protocol.
-- A `/spool init <tracker> <id> <slug>` command that scaffolds the directory from a template.
-- A `/spool close <id>` command that walks the promotion ritual interactively.
+Likely v1 after dogfooding:
+
 - Schema validation on the issue `README.md` so tools can parse it reliably.
+- On-demand portable `bun` binary installed under `.claude/skills/spool/bin/` for logic that outgrows inline shell. No system-runtime assumptions.
+- Release tarball / one-liner installer.
 
-For now, it's discipline. The point of this repo is to lock in the concept before tooling it.
+For now, it's discipline. The point of this repo is to lock in the concept before over-tooling it.
 
 ## Status
 
