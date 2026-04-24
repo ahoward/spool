@@ -83,10 +83,13 @@ Off by default. Enabled per-invocation only — never persisted, never inferred.
 
 **Audit trail.** Every prompt that would have asked the user gets logged to a `## Headless decisions` section in the issue README, grouped under a `### <YYYY-MM-DD>` subheading per session, one bullet per skipped prompt. The section is created on first headless action; do not pre-seed it in the template.
 
-**When headless refuses.** Some prompts are too consequential to auto-decide:
+**When headless refuses.** Headless leans into git as the safety net — every spool action is a commit and is reversible. The remaining refusals are about cases where there's nothing sensible to do:
 
-- `/spool close --yolo` refuses when the promotion target is ambiguous (no clear subsystem named in issue body or commits) — the user must run `close` interactively.
-- Any subcommand refuses on a corrupt or missing issue README.
+- Any subcommand refuses on a corrupt or missing issue README — there's no state to act on.
+- `/spool close --yolo` refuses if the issue dir doesn't exist or is already archived — nothing to close.
+- `/spool init --yolo` refuses if it can't auto-derive a title from the tracker — there's no name to give the dir.
+- `/spool pickup --yolo` refuses if `## Next` is empty — the gate exists for a reason and there's no sane default.
+- `/spool commit --yolo` refuses on an empty staged diff — nothing to commit.
 
 When headless refuses, say so explicitly and tell the user to drop `--yolo`.
 

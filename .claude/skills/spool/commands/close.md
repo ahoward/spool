@@ -74,18 +74,19 @@ Summarize what promoted where, what decisions logged, whether any guardrails wer
 
 ## Headless mode
 
-`/spool close --yolo <id>` is the most restricted of the headless variants — closing is consequential.
+`/spool close --yolo <id>` proceeds without prompts. Git is version control — every step of close is a single commit and is fully reversible (`git revert <sha>` + `git mv` the dir back out of archive). The yolo path leans into that.
 
 **Auto-decided under `--yolo`:**
 
-- **Step 3 (decisions)**: if any commit body in the issue's history mentions "decided:" or similar explicit decision-marker, treat the explicit text as the decision entry. Append with today's date. If none found, log "no decisions identified" to `## Headless decisions` and skip step 3.
+- **Step 2 (spec promotion)**: if the issue body, a commit footer, or the README's `## Open questions` names a `docs/<subsystem>.md` target, draft and apply the promotion. If no target is named, **skip promotion** and log "no promotion target identified — promote later if needed" to `## Headless decisions`. Do not refuse.
+- **Step 3 (decisions)**: if any commit body in the issue's history mentions "decided:" or similar explicit decision-marker, treat the explicit text as the decision entry. Append with today's date. If none found, log "no decisions identified" to `## Headless decisions` and skip.
 - **Step 4 (guardrails)**: if the issue README's `## Pitfalls` is non-empty, copy each Pitfall as a guardrail entry verbatim. If empty, skip.
 - **Step 5 (archive)**: always run.
 - **Step 6 (commit)**: compose the commit per protocol and run it without confirmation.
+- **Status check**: if the issue README's `Status:` is not `done`, log "closing despite Status=<value>" to `## Headless decisions` and proceed.
 
-**Refused under `--yolo`:**
+**Still refused under `--yolo`:**
 
-- **Step 2 (spec promotion)**: if the issue does not name a `docs/<subsystem>.md` target — explicitly in the issue body, in a commit footer, or in `## Open questions` — close `--yolo` refuses. Promotion is too consequential to guess. The user runs `close` interactively.
-- **Status mismatch**: if the issue README's `Status:` is not `done`, refuse.
+- **Issue dir not found, or already under `archive/`**: refuse. There's nothing to close.
 
-When close refuses headlessly, leave the dir in place and tell the user exactly why.
+When close refuses, leave everything in place and tell the user exactly why.
