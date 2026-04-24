@@ -1,5 +1,11 @@
 # Shared helpers. Sourced by tests. Not a standalone script.
 # Each test calls `setup_repo` at the top; tmpdir + cd + git init happen there.
+#
+# Resolve SKILL_DIR at source time, BEFORE any cd to a tmp dir. $TEST_SCRIPT
+# may be a relative path, so we must `cd` from the original cwd to get its
+# absolute location.
+SKILL_DIR=$(cd "$(dirname "$TEST_SCRIPT")/.." && pwd)
+export SKILL_DIR
 
 setup_repo() {
     tmp=$(mktemp -d)
@@ -8,10 +14,6 @@ setup_repo() {
     git config user.email "test@example.com"
     git config user.name "Test"
     git commit --allow-empty -q -m "init"
-    # Find the skill dir relative to this lib.
-    # When sourced, $0 is the test script; resolve SKILL_DIR from its location.
-    SKILL_DIR=$(cd "$(dirname "$TEST_SCRIPT")/.." && pwd)
-    export SKILL_DIR
 }
 
 cleanup_repo() {
