@@ -22,7 +22,17 @@
 <!-- Things cut from this session. One line each: <thing>: <one-line reason>. -->
 
 ## Pitfalls
-<!-- Surprises hit during the work — <what> — <how to avoid>. -->
+<!-- Group by attempt when the same step needs more than one try. Each entry:
+     short description of what was tried, why it failed, what the next attempt
+     should do differently. Single-line entries are still acceptable for
+     incidental surprises. -->
+
+<!--
+### Attempt N — <one-line summary>
+- Tried: <what>
+- Failed because: <why>
+- Next attempt should: <how to avoid>
+-->
 
 ## Open questions
 <!-- Things punted on, needing user input. One per line. -->
