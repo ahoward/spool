@@ -88,3 +88,17 @@ The amend here is limited to the sha backfill on a commit the user just approved
 ### 7. Report
 
 Print subject + sha. End.
+
+## Headless mode
+
+`/spool commit --yolo` derives commit metadata from context rather than asking:
+
+- **Type** — parsed from the current branch name (`feat/...` → `feat`, `fix/...` → `fix`, `docs/...` → `docs`, `chore/...` → `chore`, `refactor/...` → `refactor`, `test/...` → `test`). If branch is `main` or otherwise unparseable, default to `chore`.
+- **Scope** — the issue's tracker+id (`spool/#<id>`) for spool-tracked work. If the diff is changing skill files specifically, prefer `skills/spool` (matches existing project conventions).
+- **What shipped** — derived from the staged diff: pick the most-changed file's basename plus a short verb composed from the diff content. This is best-effort; under `--yolo` the user is trading precision for speed.
+- **Body** — generate a 1-3 sentence body summarizing what changed and why, referencing the issue and Next.
+- **README update** — automatic. Append the just-shipped step to `## Done` with the same advisory check (does the change roughly match Next?). The check still runs but logs a warning to `## Headless decisions` rather than prompting.
+
+The sha-backfill amend (step 6) still runs.
+
+If the staged diff is empty, refuse — there's nothing to commit.

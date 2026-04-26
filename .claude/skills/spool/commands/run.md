@@ -73,3 +73,14 @@ Summarize: what the decision tree chose (init-then-pickup vs. pickup), what ship
 - When you want to scaffold a dir without starting work yet → use `/spool init`.
 - When you want to explicitly resume an existing dir and be sure init won't fire → use `/spool pickup`.
 - When closing an issue → use `/spool close`. `run` does not close; closing is a distinct act.
+
+## Headless mode
+
+`/spool run --yolo <ref>` skips all user-prompts in this command's flow:
+
+- **Tracker disambiguation prompt** (when only `42` is given): if exactly one tracker dir exists, use it; otherwise refuse and tell the user `--yolo` can't pick a tracker.
+- **Init-branch prompts** (title, url, branch, slug, Next) are delegated to `commands/init.md` §Headless mode — see there for default-derivation rules.
+- **Pickup-branch Next-confirmation** (step 6 of `commands/pickup.md`): use the README's `## Next` verbatim. Log it to `## Headless decisions`.
+- **Partial-init Next prompt** (active dir exists but `## Next` is empty): if `--yolo` was passed, refuse — there is nothing to derive from. Tell the user to drop `--yolo` or to fill in Next manually first.
+
+Discipline preserved: still one step, still a commit with the spool protocol, still a same-commit README update. Headless does not change *what* gets done — only whether the human gets a turn.

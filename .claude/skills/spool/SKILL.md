@@ -70,3 +70,30 @@ Playbooks (`./spool/playbooks/<name>.md`) have no template — they are short fr
 ## On any tool's absence
 
 If `./spool/` does not exist yet in the repo, only `/spool init` should create it. For other subcommands, tell the user the project isn't spooled and suggest `/spool init` as the first move.
+
+## Headless mode (`--yolo`)
+
+Off by default. Enabled per-invocation only — never persisted, never inferred.
+
+`/spool <subcommand> --yolo [args...]` means "skip prompts, proceed with sane defaults." It applies to: `run`, `init`, `pickup`, `close`, `commit`. It is a no-op on `status` (already read-only).
+
+**Headless skips prompts, not discipline.** All of these still apply under `--yolo`:
+
+- The serial constraint (no parallel work).
+- The commit protocol (subject/body/footer + same-commit README update).
+- One-step-per-commit on pickup/run.
+- The advisory-validation rules — and headless ≠ reckless: malformed READMEs still abort.
+
+**Audit trail.** Every prompt that would have asked the user gets logged to a `## Headless decisions` section in the issue README, grouped under a `### <YYYY-MM-DD>` subheading per session, one bullet per skipped prompt. The section is created on first headless action; do not pre-seed it in the template.
+
+**When headless refuses.** Headless leans into git as the safety net — every spool action is a commit and is reversible. The remaining refusals are about cases where there's nothing sensible to do:
+
+- Any subcommand refuses on a corrupt or missing issue README — there's no state to act on.
+- `/spool close --yolo` refuses if the issue dir doesn't exist or is already archived — nothing to close.
+- `/spool init --yolo` refuses if it can't auto-derive a title from the tracker — there's no name to give the dir.
+- `/spool pickup --yolo` refuses if `## Next` is empty — the gate exists for a reason and there's no sane default.
+- `/spool commit --yolo` refuses on an empty staged diff — nothing to commit.
+
+When headless refuses, say so explicitly and tell the user to drop `--yolo`.
+
+**Defaults derived under `--yolo`.** Each command playbook documents its own defaults in its own `## Headless mode` section. The general rule: derive from the filesystem and tracker first; fall back to convention (`<type>/<slug>` for branch, slug-from-title) only when nothing better exists.
