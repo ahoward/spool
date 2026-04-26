@@ -2,6 +2,15 @@
 
 Flat, append-only (newest at top). One entry per key decision. Dated.
 
+## 2026-04-26 — --yolo skips prompts, not discipline; close --yolo leans on git (#3)
+
+Headless mode is per-invocation (`--yolo`), off by default, never persisted. It skips user-prompts but preserves every other piece of spool discipline: commit protocol, serial constraint, one-step-per-commit, same-commit README updates. `close --yolo` originally refused on ambiguous promotion or `Status != done`, but was loosened to instead skip-and-log: git makes every close step a reversible commit, so refusing is unnecessarily strict.
+
+**Considered alternatives:**
+- Persistent setting (env var or settings.json) — lost because "set and forget" undermines the "I know what I'm doing" promise of the flag. Per-invocation is hostile to drift.
+- Strict `close --yolo` (refuse on any ambiguity) — lost after follow-on decision. Git is version control; refusal is unnecessary because every step is reversible.
+- Pure auto everywhere with no audit — lost because losing the trail of *what* got auto-decided makes the flag opaque. The `## Headless decisions` log preserves it.
+
 ## 2026-04-26 — playbooks are plain Markdown, not parameterised (#9)
 
 `spool/playbooks/<name>.md` are short freeform CommonMark — a paragraph and a numbered list. Deliberately *not* a config format. The reason: AGENTS.md's plain-CommonMark stance is the right one for in-repo agent surfaces. Parameters create a configuration burden that erodes the "read it and you understand it" property. If a playbook needs configuration, it's not a playbook — it's a tool.
