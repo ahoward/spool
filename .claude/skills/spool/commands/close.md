@@ -46,19 +46,17 @@ Principles (from the project README):
 
 ### 3. Log decisions
 
-Ask the user: **any key decisions from this issue worth logging?** For each, append an entry to `./spool/agents/decisions.md` using the template:
+Ask the user: **any key decisions from this issue worth logging?** For each, append an entry to `./spool/agents/decisions.md` using the template at `templates/decision-entry.md`.
 
-```
-## <YYYY-MM-DD> — <short headline> (#<id>)
+For each decision, also ask: **what alternatives were considered, and why did each lose?** Capture them under a `**Considered alternatives:**` block. Skip the block when no real alternatives existed.
 
-<one-paragraph why: reasoning, alternatives, context>
-```
-
-Insert at the top (newest-first). Use today's date (the actual date, not a placeholder — resolve via `date +%Y-%m-%d`).
+Insert at the top of `decisions.md` (newest-first). Use today's date (the actual date, not a placeholder — resolve via `date +%Y-%m-%d`).
 
 ### 4. Update guardrails if needed
 
 Ask: **did any agent fail in a way the team should know about?** For each new guardrail, append a line to `./spool/agents/guardrails.md` using the template. Keep it short.
+
+If the issue's `## Pitfalls` section uses the per-attempt structure (`### Attempt N` with `Tried:`/`Failed because:`/`Next attempt should:`), prefer the **"Next attempt should..."** line as the guardrail text — that's the actionable part. Fall back to a flat one-line summary for incidental Pitfalls without the structure.
 
 ### 5. Archive the issue dir
 

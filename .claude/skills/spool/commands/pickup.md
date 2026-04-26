@@ -41,6 +41,7 @@ This is the source of truth for state. Extract:
 - `Branch:` — verify it matches current branch; if not, warn the user.
 - `## Done` — what's shipped.
 - `## Next` — the immediate next action. **This is what you'll confirm with the user.**
+- `## Plan` — the wider checklist for this issue, if present. Use it to keep `Next` consistent with the broader plan.
 - `## Deferred`, `## Pitfalls`, `## Open questions` — load into context.
 
 If any section is missing or malformed, note it but don't refuse to proceed (advisory mode).
