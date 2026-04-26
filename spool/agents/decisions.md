@@ -2,6 +2,18 @@
 
 Flat, append-only (newest at top). One entry per key decision. Dated.
 
+## 2026-04-26 — spool stays Markdown-only at v0; non-Markdown patterns deferred (#2)
+
+After surveying ~17 dev-agent tools for "perfect memory" approaches (Aider, Cline, Roo, Continue, Cursor, Copilot Workspace, OpenHands, Devin, Sweep, Goose, MemGPT/Letta, Voyager, Reflexion, plus Claude-side surface and AGENTS.md), the v0 stance is unchanged: spool is Markdown-only, in-repo, with `git grep` as the retrieval system. Three patterns flagged as "reconsider only if egregiously good" (embedding-based playbook retrieval, event-stream replay, spec-regenerates-plan) — all deferred until observed need.
+
+**Considered alternatives:**
+- Adopt vector-store memory (MemGPT/Letta) — lost: requires DB and runtime, violates Markdown-only. The repo + git grep is the retrieval system by design.
+- Adopt auto-mutating memory (Cursor Memories, auto-/memory) — lost: background writes to a hidden file undermine "single source of truth in the repo." Promotion-on-close is the *reason* memory is trustworthy.
+- Adopt plan-DAG with re-planning (Devin, OpenHands) — lost: a linear checklist suffices for issue-scoped work, and DAG implies parallelism which spool explicitly rejects.
+- Adopt sub-recipes / sub-agents with isolated memory (Goose sub-recipes, OpenHands delegation) — lost: reintroduces the parallelism and hidden-state problems spool exists to avoid.
+
+Six "Adopt now" recommendations from the analysis shipped as #5–#9 across PRs #10 and #11. See [archived analysis.md](../gh/issue/archive/2-perfect-memory-research/analysis.md) for full reasoning and source links.
+
 ## 2026-04-26 — --yolo skips prompts, not discipline; close --yolo leans on git (#3)
 
 Headless mode is per-invocation (`--yolo`), off by default, never persisted. It skips user-prompts but preserves every other piece of spool discipline: commit protocol, serial constraint, one-step-per-commit, same-commit README updates. `close --yolo` originally refused on ambiguous promotion or `Status != done`, but was loosened to instead skip-and-log: git makes every close step a reversible commit, so refusing is unnecessarily strict.
