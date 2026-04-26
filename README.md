@@ -249,7 +249,28 @@ rm -rf /tmp/spool-src
 sh .claude/skills/spool/tests/run.sh   # or ~/.claude/... for personal scope
 ```
 
-All seven tests should pass. In Claude Code, `/spool` should now list the subcommands.
+All tests should pass. In Claude Code, `/spool` should now list the subcommands.
+
+## Update
+
+The skill is Markdown-only; updating is "blow away the old tree, drop in the new." Spool's playbooks evolve upstream — local customizations are not the expected path. If you've forked behavior, treat it as a fork and merge manually.
+
+**Per-project update:**
+
+```sh
+cd <your-project>
+git clone https://github.com/ahoward/spool /tmp/spool-src
+rm -rf .claude/skills/spool
+cp -r /tmp/spool-src/.claude/skills/spool .claude/skills/spool
+rm -rf /tmp/spool-src
+sh .claude/skills/spool/tests/run.sh
+```
+
+Then commit the diff. Reviewing the diff *is* the update review — if a playbook changed in a way you don't want, revert that file before committing.
+
+**Personal update:** same shape, with `~/.claude/skills/spool` instead.
+
+Your project's `spool/` directory (issue dirs, decisions, guardrails, playbooks, archive) is untouched by either scope's update — only `.claude/skills/spool/` gets replaced.
 
 ## Commands
 
