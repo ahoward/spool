@@ -58,6 +58,10 @@ Ask: **did any agent fail in a way the team should know about?** For each new gu
 
 If the issue's `## Pitfalls` section uses the per-attempt structure (`### Attempt N` with `Tried:`/`Failed because:`/`Next attempt should:`), prefer the **"Next attempt should..."** line as the guardrail text — that's the actionable part. Fall back to a flat one-line summary for incidental Pitfalls without the structure.
 
+### 4.5. Promote any new playbooks
+
+Ask: **is any pattern from this issue worth reusing?** If yes, write or update `./spool/playbooks/<name>.md` — a short recipe (paragraph + numbered list). Skip if nothing recurring came up.
+
 ### 5. Archive the issue dir
 
 ```bash

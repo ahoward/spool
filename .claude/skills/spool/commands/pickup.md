@@ -51,9 +51,11 @@ If any section is missing or malformed, note it but don't refuse to proceed (adv
 Read any `./spool/docs/<subsystem>.md` files mentioned in the issue README or the spec.
 Read the top ~3 entries of `./spool/agents/decisions.md` (newest-first, so the first entries).
 
-### 5. Glance at guardrails
+### 5. Glance at guardrails and playbooks
 
 Read `./spool/agents/guardrails.md` in full. It's short by design.
+
+Grep `./spool/playbooks/*.md` for keywords from the issue title and `## Next`. Read any matching playbook in full. Playbooks are short — a paragraph and a numbered list — so the cost is low and the value is high when a match exists.
 
 ### 6. Confirm `Next` with the user — **STOP HERE**
 
