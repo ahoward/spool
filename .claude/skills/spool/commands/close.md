@@ -14,12 +14,27 @@ Read the issue README. If `Status:` is not `done`, ask the user to confirm they 
 
 ### 2. Promote to evolving specs
 
-Ask: **which `./spool/docs/<subsystem>.md` file(s) should reflect what shipped?** The user may name an existing file or a new subsystem.
+This step has three sub-steps in order. Do not skip 2a — it is the single biggest source of bad promoted docs.
+
+#### 2a. Scan existing docs for staleness — BEFORE asking the user
+
+List every file under `./spool/docs/`. Read each one (they are short by convention). For each, check whether what shipped in this issue **supersedes or contradicts** the existing content. Surface any conflicts to the user explicitly:
+
+> `spool/docs/api.md` says "uses iron-session for auth," but issue #75 replaced iron-session with Web Crypto. This file is stale.
+
+Do this **before** asking the open-ended "which files should reflect what shipped?" question. The user may not know what already exists or what just got superseded; the scan is the agent's job, not the user's.
+
+#### 2b. Ask the user — informed by the scan
+
+Ask: **which `./spool/docs/<subsystem>.md` file(s) should reflect what shipped?** Pre-populate the list with anything you flagged as stale in 2a, plus any net-new subsystem the user names.
+
+#### 2c. Draft from code, not from memory
 
 For each named file:
 
-- If it exists, read it. Propose merged content that describes what *is* now (not what's planned).
-- If it's new, draft it from scratch.
+- **Read the actual shipped code first.** Open the files the issue's commits touched. Do not draft from conversation memory or the issue README's `## Done` summaries — both are lossy and framing-dependent.
+- If the file exists, read it too. Propose merged content describing what *is* now.
+- If it's new, draft it from scratch — but still from code, not from conversation.
 
 Show the proposed spec content to the user for approval. Apply edits once approved.
 
@@ -27,6 +42,7 @@ Principles (from the project README):
 
 - Describe what *is*, not what's planned. Aspirational content stays out.
 - Subsystem granularity — one file per "thing you'd want to read to understand how X works."
+- **Draft from code, not from conversation.** Conversation memory is lossy; the source files are authoritative.
 
 ### 3. Log decisions
 

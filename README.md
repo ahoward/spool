@@ -126,7 +126,7 @@ Format: bullet list grouped by agent (or shared), one line per guardrail, plus a
 
 When an issue closes, the final PR does, as its last commit:
 
-1. **Promote to evolving specs.** Update `./spool/docs/<subsystem>.md` to reflect what shipped. Replace or merge sections; this is the *new current truth*.
+1. **Promote to evolving specs.** Update `./spool/docs/<subsystem>.md` to reflect what shipped. Replace or merge sections; this is the *new current truth*. **Draft from code, not from conversation memory** — read the actual shipped files. And **scan existing `docs/` for staleness** before drafting; an issue often supersedes content the user has forgotten about.
 2. **Log the decisions.** Append dated entries to `./spool/agents/decisions.md` for any key choices worth remembering.
 3. **Update guardrails if needed.** If an agent failed in a way the team should know about, add to `./spool/agents/guardrails.md`.
 4. **Archive the issue dir.** `mv spool/<tracker>/issue/<id>-<slug>/ spool/<tracker>/issue/archive/<id>-<slug>/`. No tar, no gzip — just move. Git history preserves the rename.
