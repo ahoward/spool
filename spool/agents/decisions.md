@@ -2,6 +2,17 @@
 
 Flat, append-only (newest at top). One entry per key decision. Dated.
 
+## 2026-04-30 — spool lives at `./spool/`, hardcoded; no env-var override
+
+Spool's path is fixed at the project root. Not configurable per-project, not overridable via `SPOOL_ROOT` or similar. The path is the convention: commit footers write `Spool: spool/<tracker>/issue/<id>/README.md`, AGENTS.md tells external tools to read `spool/`, and a reader three years later must be able to `cat` the path from a footer and find the file. Predictability across every clone of every spooled project is the load-bearing property; an env-var or config knob breaks it.
+
+**Considered alternatives:**
+- `tmp/spool/` — lost: `tmp/` implies disposable; spool is durable.
+- `docs/spool/` — lost: spool is state, not documentation; nesting in `docs/` muddles semantics and creates a `docs/spool/docs/` triple-nest.
+- `.spool/` (hidden) — lost: spool is meant to be visible to the team, like AGENTS.md, not hidden like `.git/`.
+- `SPOOL_ROOT` env var with `./spool/` default — lost: every literal path in playbooks/tests/footers/AGENTS.md becomes a substitution; commit footers point to paths that don't exist without knowing the env var that was set when the commit was made; AGENTS.md interop with external tools breaks. Solves edge cases at the cost of the predictability that makes spool work.
+- Per-package nesting in monorepos — deferred. The convention is silent on monorepos; that's a v1 question, not a v0 root-naming question. Tracked in #14.
+
 ## 2026-04-26 — spool stays Markdown-only at v0; non-Markdown patterns deferred (#2)
 
 After surveying ~17 dev-agent tools for "perfect memory" approaches (Aider, Cline, Roo, Continue, Cursor, Copilot Workspace, OpenHands, Devin, Sweep, Goose, MemGPT/Letta, Voyager, Reflexion, plus Claude-side surface and AGENTS.md), the v0 stance is unchanged: spool is Markdown-only, in-repo, with `git grep` as the retrieval system. Three patterns flagged as "reconsider only if egregiously good" (embedding-based playbook retrieval, event-stream replay, spec-regenerates-plan) — all deferred until observed need.

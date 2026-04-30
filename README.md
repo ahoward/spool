@@ -56,6 +56,14 @@ Everything spool-related lives under `./spool/` in your project. Top-level:
 
 The tracker namespace (`gh/`, `linear/`, etc.) is explicit in the path because not every project uses the same tracker. Issues from multiple trackers coexist without collision.
 
+## Why `./spool/` at root, not `tmp/spool/` or `docs/spool/`
+
+Spool is *state*, not documentation. Active issue dirs are mutable working memory; `decisions.md` is a permanent journal; the archive is a frozen audit trail. None of that fits under `docs/` semantically — a project's own `docs/` is for product/architecture documentation, and nesting spool there reads as "documentation about spool" rather than "the spool of work-in-flight." `tmp/` is worse — it implies disposable, which inverts the durability spool guarantees.
+
+The deeper reason is **the path is the convention**. Commit footers write `Spool: spool/gh/issue/42-foo/README.md`. AGENTS.md tells external tools to read `spool/`. Tracker references and cross-team handoffs all assume the same fixed path. A reader three years from now should be able to `cat` the path from a commit footer and find the file. That contract requires the path be predictable across every clone of every spooled project.
+
+Hence: **`./spool/` at the project root, not configurable.** Spool claims one piece of root namespace and uses it consistently. If a project already has a `spool/` directory for something else, rename that other thing; a hard collision with the spool convention is one-time pain and the alternative (per-project path overrides) breaks the predictability that makes spool work.
+
 ## The five kinds of files
 
 ### 1. Issue working dirs — `./spool/<tracker>/issue/<id>-<slug>/`
